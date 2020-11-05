@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="vue.js"></script>
+    <title>Unguided Vue Basic 180709875</title>
+</head>
+<body>
+    <div id="app">
+            <nav class="navbar navbar-light bg-dark">
+                <div class="container">
+                    <div class="row">
+                        <div class="col"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <span  @click="showNumber" class="navbar-brand mb-0 h1 text-white">{{ navbar }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col" v-for="angka in showNum">
+                        <div class="card" style="width: fit-content;">
+                            <div class="card-body">
+                            <h5 class="card-title" >{{ angka }}</h5>
+                            </div>
+                        </div>      
+                    </div>
+                    
+                </div>
+                <div class="row" style="margin-top: 6%;">
+                    <div class="col"></div>
+                    <div class="col border border-white p-5 rounded shadow">
+                        <div class="form-group">
+                            <b><label  for="inputAngka">Masukan Angka</label></b>
+                            <input type="text   " class="form-control rounded" v-model="inputAngka" :disabled="boolDis" placeholder="Masukan Angka">
+                        </div>
+                        <button class="btn btn-block btn-warning rounded shadow" :disabled="boolDis" @click="tebakBtn"><b>TEBAK</b></button>
+                        
+                        <div class="mt-3 mb-3">
+                            <div v-show="sama">
+                                <p class="text-center text-success"><b>Jawaban Anda Benar</b></p>
+                                <button class="btn btn-block btn-success rounded shadow" @click="restart"><b>MAIN LAGI</b></button>
+                            </div>
+
+                            <div v-show="beda">
+                                <p class="text-center text-danger"><b>Jawaban Anda Salah</b></p>
+                                <button  class="btn btn-block btn-danger rounded shadow" @click="ulang"><b>COBA LAGI</b></button>
+                            </div>
+
+                            <div v-show="kalah">
+                                <p class="text-center text-danger"><b>Game Over! Answer : {{ angkaR }}</b></p>
+                                <button  class="btn btn-block btn-danger rounded shadow" @click="restart"><b>MAIN LAGI</b></button>
+                            </div>
+                        </div>
+                        <p class="mt-4 text-primary text-center"><b>Kesempatan : {{ kesempatan }}</b></p>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+
+
+            <nav class="navbar navbar-light bg-dark" style="margin-top: 6%">
+                <div class="container">
+                    <div class="row">
+                        <div class="col"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <span class="navbar-brand mb-0 h1 text-white">{{ `${footer.nama}  |  ${footer.npm}  |  ${footer.kelas}` }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </nav>
+    </div>
+</body>
+
+<script>
+    new Vue({
+        el:"#app",
+        data: {
+            navbar: "Game Tebak Angka",
+            angkaR: Math.floor(Math.random() * 10)+1,
+            inputAngka : 0,
+            kesempatan : 3,
+            sama : 0,
+            beda : 0,
+            kalah: 0,
+            boolDis:false,
+            showNum: [1,2,3,4,5,6,7,8,9,10],
+            footer: {
+                nama: "Ezra Audivano Dirfa",
+                npm: "180709875",
+                kelas: "Kelas E",
+            },
+        },
+        methods: {
+            showNumber(){
+                console.log(this.angkaR);
+            },
+            tebakBtn(){
+                
+                if(this.inputAngka == this.angkaR){
+                    this.sama = 1;
+                }else{
+                    this.boolDis=true;
+                    this.beda = 1;
+                    this.kesempatan--;
+                    if(this.kesempatan==0){
+                        this.kalah=1;
+                        this.beda=0;
+                    }
+                }
+            },
+
+            ulang(){
+                this.boolDis=false;
+                this.beda=0;
+            },
+
+            restart(){
+                
+                location.reload();
+            }
+        }
+
+    })
+</script>
+
+</html>
